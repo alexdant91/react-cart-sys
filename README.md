@@ -4,12 +4,11 @@ Basic React cart system.
 
 ## INSTALL
 
-To install, navigate to the root folder and run `npm install`. Then navigate to the api folder using `cd ./api` and run `npm install`. Then navigate back to
-the root folder running `cd ..`.
+To install, navigate to the root folder and run `npm install`. Then navigate to the api folder using `cd ./api` and run `npm install`. Then navigate back to the root folder using `cd ..`.
 
 ## RUN API AND REACT SERVERS
 
-Open 2 terminal wondows both on the root folder. Run `npm start` from the first one to start react server and run `npm run start:api` for the second one
+Open 2 terminal windows, both on the root folder. Run `npm start` from the first one to start react server and run `npm run start:api` from the second one
 to start api server.
 
 ## API
