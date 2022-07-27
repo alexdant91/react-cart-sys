@@ -1,70 +1,202 @@
-# Getting Started with Create React App
+# CART SYSTEM
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Basic React cart system.
 
-## Available Scripts
+## INSTALL
 
-In the project directory, you can run:
+To install, navigate to the root folder and run `npm install`. Then navigate to the api folder using `cd ./api` and run `npm install`. Then navigate back to
+the root folder running `cd ..`.
 
-### `yarn start`
+## RUN API AND REACT SERVERS
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Open 2 terminal wondows both on the root folder. Run `npm start` from the first one to start react server and run `npm run start:api` for the second one
+to start api server.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## API
 
-### `yarn test`
+How to make request to you localhost api system.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Post request to make user login, check `/api/data/db.json` to get correct user `email` and `password`:
 
-### `yarn build`
+```js
+/*
+* –> User login
+* @url http://localhost:3000/users/login
+* @method POST
+**/
+(async () => {
+  try {
+    const results = await axios({
+      url: "http://localhost:3000/users/login",
+      method: "POST",
+      data: {
+        email: "mario.bianchi@example.com",
+        password: "1234"
+      }
+    });
+  
+    const data = results.data; // -> { user: { ... }, token: ... }
+  } catch(err) {
+    console.error(err);
+  }
+})()
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Get request to fetch current user cart. Remember to set correct header `Authorization` with the token value retrieved from
+the login request (look up):
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```js
+/*
+* –> Get cart for a specific user
+* @url http://localhost:3000/cart
+* @method GET
+* @headers Authorization: {USER_TOKEN_AUTH}
+**/
+(async () => {
+  try {
+    const results = await axios({
+      url: "http://localhost:3000/cart",
+      method: "GET",
+      headers: {
+        "Authorization": `${USER_AUTH_TOKEN}`,
+      }
+    });
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+    const data = results.data;
+  } catch(err) {
+    console.error(err);
+  }
+})()
+```
 
-### `yarn eject`
+Post request to add a new product in cart. Remember to set correct header `Authorization` with the token value retrieved from
+the login request (look up):
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```js
+/*
+* –> Fill cart for a specific user
+* @url http://localhost:3000/cart
+* @method POST
+* @headers Authorization: {USER_TOKEN_AUTH}
+**/
+(async () => {
+  try {
+    const results = await axios({
+      url: "http://localhost:3000/cart",
+      method: "POST",
+      data: {
+        productId: 0,
+        qnt: 2
+      },
+      headers: {
+        "Authorization": `${USER_AUTH_TOKEN}`,
+      }
+    });
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+    const data = results.data;
+  } catch(err) {
+    console.error(err);
+  }
+})()
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Put request to update cart product quantity. Remember to set correct header `Authorization` with the token value retrieved from
+the login request (look up):
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```js
+/*
+* –> Update cart for a specific user
+* @url http://localhost:3000/cart/{idProduct}
+* @method PUT
+* @headers Authorization: {USER_TOKEN_AUTH}
+**/
+(async () => {
+  try {
+    const results = await axios({
+      url: `http://localhost:3000/cart/${productId}`,
+      method: "PUT",
+      data: {
+        qnt: 2
+      },
+      headers: {
+        "Authorization": `${USER_AUTH_TOKEN}`,
+      }
+    });
 
-## Learn More
+    const data = results.data;
+  } catch(err) {
+    console.error(err);
+  }
+})()
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Delete request to remove a product from cart. Remember to set correct header `Authorization` with the token value retrieved from
+the login request (look up):
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```js
+/*
+* –> Delete a cart product for a specific user
+* @url http://localhost:3000/cart/{idProduct}
+* @method DELETE
+* @headers Authorization: {USER_TOKEN_AUTH}
+**/
+(async () => {
+  try {
+    const results = await axios({
+      url: `http://localhost:3000/cart/${productId}`,
+      method: "DELETE",
+      headers: {
+        "Authorization": `${USER_AUTH_TOKEN}`,
+      }
+    });
 
-### Code Splitting
+    const data = results.data;
+  } catch(err) {
+    console.error(err);
+  }
+})()
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Get request to fetch all products:
 
-### Analyzing the Bundle Size
+```js
+/*
+* –> Get all products
+* @url http://localhost:3000/products
+* @method GET
+**/
+(async () => {
+  try {
+    const results = await axios({
+      url: "http://localhost:3000/products",
+      method: "GET"
+    });
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+    const data = results.data;
+  } catch(err) {
+    console.error(err);
+  }
+})()
+```
 
-### Making a Progressive Web App
+Get request to validate promo codes:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+```js
+/*
+* –> Validate promo code
+* @url http://localhost:3000/promo-code/{code}
+* @method GET
+**/
+(async () => {
+  try {
+    const results = await axios({
+      url: `http://localhost:3000/promo-code/${code}`,
+      method: "GET"
+    });
 
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+    const data = results.data;
+  } catch(err) {
+    console.error(err);
+  }
+})()
+```
